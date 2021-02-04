@@ -18,12 +18,12 @@ const create = async (user) => {
 
 
 const list = async (signal) => {
+    console.log('list started');
     try{
-        let response = await fetch('/api/users', {
-        method: 'GET',
-        signal: signal,
-    })
-    return await response.json()
+        let response = await fetch('/api/users', { method: 'GET', signal: signal})
+        console.log('list step two')
+        return await response.json()
+
     } catch(err){
         console.log('an error occured at list: ', err)
     }

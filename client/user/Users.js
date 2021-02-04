@@ -11,13 +11,15 @@ export default function Users() {
     
     useEffect(() => {
         const abortController = new AbortController()
-        const signal = abortController.signal
+        const signal = abortController.signal3
 
         list(signal).then((data) => {
             if (data && data.error){
                 console.log(data.error)
             } else {
+                console.log('users found: ', data)
                 setUsers(data)
+                console.log('users set')
             }
         })
 
@@ -33,7 +35,7 @@ export default function Users() {
     return (
         <Paper className={classes.root} elevation={4}>
             <Typography variant="h6" className={classes.title}>
-                All Users
+                All Users {users}
             </Typography>
             <List dense>
                 {users && users.map((item, i) => {

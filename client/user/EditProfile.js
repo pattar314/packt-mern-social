@@ -15,11 +15,18 @@ const EditProfile = () => {
     })
 
     const handleChange = name => event => {
-        setValues({ ...values, [name]: event.target.value})
+        const value = name === 'photo'
+        ? event.target.files[0]
+        : event.target.value
+        setValues({ ...values, [name]: value})
     }
 
+    
+    const classes = useStyles()
     const clickSubmit = () => {
-        const classes = useStyles()
+        let userData = new FormData()
+        values.name && userData.append('name', values.name)
+        values.email && userData.append('email', values.email)
         const user = {
             name: values.name || undefined,
             email: values.email || undefined,
@@ -69,7 +76,18 @@ const EditProfile = () => {
                         value={values.about}
                         onChange={handleChange('about')}
                         />
+                    
                     <input accept="image/*" type="file" onChange={handleChange('photo')} style={{display: 'none'}} id="icon-button-file" />
+                    <label htmlFor="icon-button-file">
+                        <Button variant="contained" color="default" content="span">
+                            Upload <FileUpload />
+                        </Button>
+                    </label>
+                    <span className={classes.filename}>
+                        {values.photo ? values.photo.name : ''}
+                    </span>
+
+
                     {
                         values.error && (<Typography component="p" color="error">
                             <Icon color="error" className={classes.error}>error</Icon>

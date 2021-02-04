@@ -36,7 +36,6 @@ devBundle.compile(app);
 
 
 app.get('*', (req, res) => {
-    console.log('step one passed');
     const sheets = new ServerStyleSheets()
     const context = {}
     const markup = ReactDOMServer.renderToString(
