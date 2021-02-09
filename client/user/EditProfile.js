@@ -4,7 +4,7 @@ import { Redirect } from 'react-router'
 import useStyles from './../core/Home';
 
 
-const EditProfile = () => {
+const EditProfile = () => { 
 
     const [values, setValues] = useState({
         name: '',
@@ -23,22 +23,27 @@ const EditProfile = () => {
 
     
     const classes = useStyles()
+
     const clickSubmit = () => {
         let userData = new FormData()
         values.name && userData.append('name', values.name)
         values.email && userData.append('email', values.email)
+        values.password && userData.append('password', values.email)
+        values.about && userData.append('about', values.about)
+        values.photo && userData.append('photo', values.photo)
         const user = {
             name: values.name || undefined,
             email: values.email || undefined,
             password: values.email || undefined
         }    
+
         const jwt = auth.isAuthenticated()
 
         update({
             userId: match.params.userId
         }, {
             t: jwt.token
-        }, user).then((data) => {
+        }, userData).then((data) => {
             if (data && data.error){
                 setValues({...values, error: data.error})
             } else {
@@ -49,6 +54,8 @@ const EditProfile = () => {
             return (<Redirect to={'/user/' + values.userId} />)
         }
     }
+
+
     return (
         
         <div>

@@ -1,6 +1,9 @@
 import extend from 'lodash/extend';
 import User from './../models/user.model';
 import errorHandler from './../helpers/dbErrorHandler';
+import profileImage from './../../client/assets/images/profile-pic.png'
+import formidable from 'formidable';
+import fs from 'fs'
 
 
 const userById = async (req, res, next, id) => {
@@ -36,17 +39,30 @@ const read = (req, res) => {
 
 
 const update = async (req, res) => {
-    try {
+        let form = new formidable.IncomingForm()
+        form.keepExtensions = true
+        form.parse(req, async (err, fields, files) => {
+            if (err) {
+                return res.status(400).json({
+                    error: "Photo could not be uploaded"
+                })
+            }
         let user = req.profile;
-        user = extend(user, req.body);
+        user = extend(user, fields);
         user.updated = Date.now();
-        await user.save();
-        user.hashed_password = undefined;
-        user.salt = undefined;
-        res.json(user)
-} catch (err) {
-    return res.status(400).json({ error: errorHandler.getErrorMessage(err)})
-}
+        if(files.photo){
+            user.photo.data = fs.readFileSync(files.photo.path)
+            user.photo.contentType = files.photo.type
+        }
+        try {
+            await user.save();
+            user.hashed_password = undefined;
+            user.salt = undefined;
+            res.json(user)
+        } catch (err) {
+            return res.status(400).json({ error: errorHandler.getErrorMessage(err)})
+        }
+    })
 }
 
 const remove = async (req, res) => {
@@ -75,5 +91,16 @@ const list = async (req, res) => {
     }
 }
 
+const photo = (req, res, next) => {
+    if(req.profile.photo.data){
+        res.set("Content-Type", req.profile.photo.contentType)
+        return res.send(req.profile.photo.data)
+    }
+    next()
+}
 
-export default { create, read, list, remove, update, userById }
+const defaultPhoto = (req, res) => {
+    return res.sendFile(process.cwd()+profileImage)
+}
+
+export default { create, read, list, remove, update, userById, photo, defaultPhoto }

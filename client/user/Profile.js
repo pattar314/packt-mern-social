@@ -2,7 +2,6 @@ import { Avatar, Divider, IconButton, ListItem, ListItemAvatar, ListItemSecondar
 import { Edit } from "@material-ui/icons";
 import { useState } from "react";
 import { Redirect } from "react-router";
-import Icon from '@material-ui/core/Icon'
 import useStyles from './../core/Home';
 
 
@@ -35,6 +34,10 @@ export default function Profile({match}){
         return <Redirect to='/signin' />
     }
 
+    const photoUrl = values.user._id
+        ? `/api/users/photo/${values.user._id}?${new Date().getTime()}`
+        : '/api/users/defaultphoto'
+
 
     return (
         <Paper className={classes.root} elevation={4}>
@@ -45,7 +48,7 @@ export default function Profile({match}){
                 <ListItem>
                     
                     <ListItemAvatar>
-                        <Avatar>
+                        <Avatar src={photoUrl}>
                             <Person />
                         </Avatar>
                     </ListItemAvatar>

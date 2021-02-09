@@ -18,9 +18,11 @@ const create = async (user) => {
 
 
 const list = async (signal) => {
-    console.log('list started');
+    console.log('list called')
     try{
-        let response = await fetch('/api/users', { method: 'GET', signal: signal})
+        let response = await fetch('/api/users',
+         { method: 'GET',
+          signal: signal})
         console.log('list step two')
         return await response.json()
 
@@ -54,10 +56,9 @@ const update = async (params, credentials, user) => {
         method: 'PUT',
         headers: {
             'Accept': 'application/json',
-            'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + credentials.t 
         },
-        body: JSON.stringify(user)
+        body: user
     })
     return await response.json();
 } catch (err){

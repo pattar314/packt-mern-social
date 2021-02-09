@@ -24,6 +24,11 @@ router.route('/api/users/:userId')
     .delete(authCtrl.requireSignin, authCtrl.hasAuthorization, userCtrl.remove)
 
 
+router.route('/api/users/photo/:userId')
+    .get(userCtrl.photo, userCtrl.defaultPhoto)
+
+router.route('/api/users/defaultphoto')
+    .get(userCtrl.defaultPhoto)
 
 
 export default router
