@@ -4,7 +4,10 @@ import { Redirect } from 'react-router'
 import useStyles from './../core/Home';
 
 
+
 const EditProfile = () => { 
+
+    const classes = useStyles()
 
     const [values, setValues] = useState({
         name: '',
@@ -22,7 +25,6 @@ const EditProfile = () => {
     }
 
     
-    const classes = useStyles()
 
     const clickSubmit = () => {
         let userData = new FormData()
@@ -64,36 +66,19 @@ const EditProfile = () => {
                     <Typography variant="h6" className={classes.title}>
                         Sign Up
                     </Typography>
-                    <TextField id="name" placeholder="Name" className={classes.textField} value={values.name} onChange={handleChange('name')}
-                    margin="normal" />
-                    <br />
-                    <TextField id="email" type="email" placeholder="Email"
-                        className={classes.textField}
-                        value={values.email} onChange={handleChange('email')}
-                        margin="normal" />
-                    <br/>
-                    <TextField id="password" type="password" placeholder="Password"
-                    className={classes.textField} value={values.password}
-                    onChange={handleChange('password')} margin="normal" />
-                    <br/>
-                    <TextField id="about"
-                        placeholder="About"
-                        multiline
-                        rows="2"
-                        value={values.about}
-                        onChange={handleChange('about')}
-                        />
+                    <TextField id="name" placeholder="Name" className={classes.textField} value={values.name} onChange={handleChange('name')} margin="normal" /><br />
+                    
+                    <TextField id="email" type="email" placeholder="Email" className={classes.textField} value={values.email} onChange={handleChange('email')} margin="normal" /><br/>
+                    
+                    <TextField id="password" type="password" placeholder="Password" className={classes.textField} value={values.password} onChange={handleChange('password')} margin="normal" /><br/>
+                    
+                    <TextField id="about" placeholder="About" multiline rows="2" value={values.about} onChange={handleChange('about')} />
                     
                     <input accept="image/*" type="file" onChange={handleChange('photo')} style={{display: 'none'}} id="icon-button-file" />
                     <label htmlFor="icon-button-file">
-                        <Button variant="contained" color="default" content="span">
-                            Upload <FileUpload />
-                        </Button>
+                    <Button variant="contained" color="default" content="span"> Upload <FileUpload /></Button>
                     </label>
-                    <span className={classes.filename}>
-                        {values.photo ? values.photo.name : ''}
-                    </span>
-
+                    <span className={classes.filename}>{values.photo ? values.photo.name : ''}</span>
 
                     {
                         values.error && (<Typography component="p" color="error">
@@ -103,8 +88,7 @@ const EditProfile = () => {
                     }
                 </CardContent>
                 < CardActions >
-                    <Button color="primary" variant="contained" onClick={clickSubmit}
-                    className={classes.submit}>Submit</Button>
+                    <Button color="primary" variant="contained" onClick={clickSubmit} className={classes.submit}>Submit</Button>
                 </CardActions>
             </Card>
             <Dialog open={values.open} disableBackdropClick={true}>

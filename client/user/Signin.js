@@ -1,10 +1,13 @@
-import { Card, CardActions, CardContent, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, Icon, Link, TextField, Typography, Button } from '@material-ui/core'
+import { Card, CardActions, CardContent, Icon, TextField, Typography, Button } from '@material-ui/core'
 import React, { useState } from 'react'
 import { Redirect } from 'react-router'
 import useStyles from './../core/Home'
+import { signin } from './../auth/api-auth'
+import auth from './../auth/auth-helper'
 
 
 export default function Signin(props){
+
     const [values, setValues] = useState({
         email: '',
         password: '',
@@ -18,9 +21,9 @@ export default function Signin(props){
             password: values.password || undefined
         }
 
-
         signin(user).then((data) => {
             if (data.error){
+                console.log('error at 4: ', data.error)
                 setValues({...values, error: data.error})
             } else {
                 auth.authenticate(data, () => {
@@ -40,6 +43,8 @@ export default function Signin(props){
             pathname: '/'
         }
     }
+
+
     const {redirectToReferrer} = values
     if (redirectToReferrer){
         return(<Redirect to={from}/>)
@@ -48,7 +53,6 @@ export default function Signin(props){
     const classes = useStyles()
 
     return (
-        <div>
             <Card className={classes.card}>
                 <CardContent>
                     <Typography variant="h6" className={classes.title}>
@@ -66,17 +70,16 @@ export default function Signin(props){
                     {
                         values.error && (<Typography component="p" color="error">
                             <Icon color="error" className={classes.error}>error</Icon>
-                            {values.error}</Typography>
+                            {values.error}
+                            </Typography>
                         )
                     }
                 </CardContent>
                 < CardActions >
                     <Button color="primary" variant="contained" onClick={clickSubmit}
-                    className={classes.submit}>Sign in</Button>
+                    className={classes.submit}>Submit</Button>
                 </CardActions>
             </Card>
+            )
 
-        </div>
-    )
-
-}
+    }

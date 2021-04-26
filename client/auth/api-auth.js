@@ -1,13 +1,13 @@
-import { response } from "express"
+
 
 const signin = async (user) => {
     try{
-        const response = await fetch('/api/auth/signin',
+        const response = await fetch('/auth/signin/',
             {
                 'method': 'POST',
                 'headers': {
-                    'accepts': 'text/javascript',
-                    'content-type': 'text/javascript'
+                    'Accept': 'application/json',
+                    'content-type': 'application/json'
                 },
                 credentials: 'include',
                 body: JSON.stringify(user)
@@ -24,7 +24,7 @@ const signout = async () => {
         let response = await fetch('/auth/signout', {'method': 'GET'})
         return await response.json()
     } catch (err) {
-        console.log(err)
+        console.log('an error occured in signout: ', err)
     }
 }
 

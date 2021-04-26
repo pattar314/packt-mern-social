@@ -7,7 +7,12 @@ import { Link } from 'react-router-dom'
 import { list } from './api-user.js'
 
 
-const useStyles = makeStyles(theme => ({
+
+export default function Users() {
+    const [users, setUsers] = useState([])
+    
+    
+    const useStyles = makeStyles(theme => ({
     root: theme.mixins.gutters({
         padding: theme.spacing(1),
         margin: theme.spacing(5)
@@ -18,10 +23,7 @@ const useStyles = makeStyles(theme => ({
       }
     }))
 
-export default function Users() {
-    const [users, setUsers] = useState([])
     const classes = useStyles()
-
     
     useEffect(() => {
         const abortController = new AbortController()

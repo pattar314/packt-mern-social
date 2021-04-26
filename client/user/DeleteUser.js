@@ -1,4 +1,6 @@
-import { DialogActions, DialogContent, DialogContentText, DialogTitle } from '@material-ui/core'
+import { DialogActions, DialogContent, DialogContentText, DialogTitle, IconButton, Dialog, Button} from '@material-ui/core'
+import { Delete } from '@material-ui/icons';
+import PropTypes from 'prop-types'
 import React, { useState } from 'react'
 import { remove } from './api-user'
 
@@ -29,6 +31,7 @@ export default function DeleteUser(props){
             }
         })
     }
+
 if (redirect){
     return <Redirect to='/' />
 }
@@ -37,7 +40,7 @@ return (
     <span>
         <IconButton aria-label="Delete"
         onClick={clickButton} color="secondary">
-            <DeleteIcon />
+            <Delete />
         </IconButton>
 
         <Dialog open={open} onClose={handleRequestClose}>

@@ -1,8 +1,13 @@
-import { Avatar, Divider, IconButton, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Typography } from "@material-ui/core";
-import { Edit } from "@material-ui/icons";
-import { useState } from "react";
+import { Avatar, Divider, IconButton, List, ListItem, ListItemAvatar, ListItemSecondaryAction, ListItemText, Typography, Paper } from "@material-ui/core";
+import { Edit, Person } from "@material-ui/icons";
+import React, { useState, useEffect } from "react";
 import { Redirect } from "react-router";
 import useStyles from './../core/Home';
+import auth from './../auth/auth-helper';
+import { read } from './api-user';
+import { Link } from 'react-router-dom';
+import DeleteUser from './DeleteUser';
+
 
 
 export default function Profile({match}){
@@ -22,6 +27,7 @@ export default function Profile({match}){
             if (data && data.error){
                 setRedirectToSignin(true)
             }else {
+                console.log('user: ', data)
                 setUser(data)
             }
         })
@@ -34,22 +40,21 @@ export default function Profile({match}){
         return <Redirect to='/signin' />
     }
 
-    const photoUrl = values.user._id
-        ? `/api/users/photo/${values.user._id}?${new Date().getTime()}`
+    const photoUrl = user._id
+        ? `/api/users/photo/${user._id}?${new Date().getTime()}`
         : '/api/users/defaultphoto'
 
 
     return (
         <Paper className={classes.root} elevation={4}>
-            <Typography variant={h6} className={classes.title}>
+            <Typography variant="h6" className={classes.title}>
                 Profile
             </Typography>
             <List dense>
                 <ListItem>
-                    
                     <ListItemAvatar>
                         <Avatar src={photoUrl}>
-                            <Person />
+                            <Person/>
                         </Avatar>
                     </ListItemAvatar>
                     <ListItemText primary={user.name} secondary={user.email} />
@@ -69,7 +74,7 @@ export default function Profile({match}){
                     <ListItemText primary={"Joined: " + (new Date(user.created)).toDateString()}/>
                 </ListItem>
                 <ListItem> 
-                    <ListItemText primary={this.state.user.about} />
+                    <ListItemText primary={user.about} />
                 </ListItem>
             </List>
         </Paper>
